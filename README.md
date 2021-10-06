@@ -1,16 +1,15 @@
-# v_0_0_1
+# Special Photo Location
 
-A new Flutter project.
+2021 Flutter Version
 
-## Getting Started
+## What is it?
 
-This project is a starting point for a Flutter application.
+Years ago I created the SPL-App in AngularJS/Ionic 1. IT history so to say ;-)
 
-A few resources to get you started if this is your first Flutter project:
+I started with Flutter some time ago I really felt in love with it. So here comes Special Photo Location in Flutter.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Backend is Firebase.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+App is going to be released in the app stores.
+
+## Work in progress!!!
