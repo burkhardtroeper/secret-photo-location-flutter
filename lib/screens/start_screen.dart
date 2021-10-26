@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:v_0_0_1/screens/main_screen.dart';
+import '../screens/main_screen.dart';
 
 class StartScreen extends StatelessWidget {
   static const routeName = '/start-screen';

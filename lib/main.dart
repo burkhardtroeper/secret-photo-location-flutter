@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import './screens/start_screen.dart';
 import './screens/main_screen.dart';
+import './screens/locationinput_screen.dart';
 
 import './providers/location_provider.dart';
 
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (ctx) => StartScreen(),
           MainScreen.routeName: (ctx) => MainScreen(),
+          LocationInput.routeName: (ctx) => LocationInput(),
         },
       ),
     );

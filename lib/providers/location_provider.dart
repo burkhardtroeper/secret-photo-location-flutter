@@ -1,72 +1,95 @@
 import 'package:flutter/material.dart';
 
-import 'package:latlong2/latlong.dart';
+import 'package:flutter_map/flutter_map.dart';
 
-import '../models/locations.dart';
+
+import '../models/monument.dart';
+import '../models/monumentmarker.dart';
 
 
 class LocationProvider with ChangeNotifier {
 
-  final List <SingleLocation> _locations = [
+  final List <Monument> _locations = [
 
-    SingleLocation(
-      title: 'Location 1',
-      description: 'Description 1',
-      camera: 'Nikon D800', 
-      lens: '85mm',
-      aperture: '2.8',
-      exposureTime: '1/250',
-      coordinates: LatLng(44.421, 10.404),
-      url: 'http://www.6real.de',
-      date: DateTime.utc(2018, 11, 9)
+    Monument(
+      title: 'Hofbräuhaus München',
+      description: 'Von Janos Kertesz',
+      lat: 48.137648311296,
+      long: 11.57983264273121,
+      url: 'https://source.unsplash.com/user/c_v_r/200x100',
+      date: DateTime.utc(2018, 01, 5)
     ),
-    SingleLocation(
-      title: 'Location 2',
+    Monument(
+      title: 'Hofbräuhaus München 2',
       description: 'Description 2',
-      camera: 'Nikon D850', 
-      lens: '50mm',
-      aperture: '3.5',
-      exposureTime: '1/250',
-      coordinates: LatLng(45.683, 10.839),
-      url: 'http://www.6real.de',
+      lat: 47.137648311296,
+      long: 11.57983264273121,
+      url: 'https://source.unsplash.com/user/c_v_r/200x100',
       date: DateTime.utc(2019, 11, 9)
     ),
-    SingleLocation(
-      title: 'Location 3',
+    Monument(
+      title: 'Hofbräuhaus München 3',
       description: 'Description 3',
-      camera: 'Nikon Z6', 
-      lens: '20mm',
-      aperture: '2.8',
-      exposureTime: '1/250',
-      coordinates: LatLng(45.246, 5.783),
-      url: 'http://www.6real.de',
+      lat: 49.137648311296,
+      long: 11.57983264273121,
+      url: 'https://source.unsplash.com/user/c_v_r/200x100',
       date: DateTime.utc(2020, 11, 9)
     ),
   ];
 
-  List<SingleLocation> get allLocations {
+  List<Monument> get allLocations {
 
     return [..._locations];
 
   }
 
-  SingleLocation findByTitle(String title) {
+  List<Marker> get allMarkers {
+
+    List<Marker> tempMarker = [];
+
+    _locations.forEach((location) {
+
+      var tempLocation = MonumentMarker(monument: Monument(title: location.title, lat: location.lat, long: location.long, url: location.url, date: location.date));
+
+      tempMarker.add(tempLocation);
+
+     });
+
+     return tempMarker;
+
+    // <Marker>[
+    //   MonumentMarker(monument: Monument(
+    //     title: 'Titel 1',
+    //     url: 'https://cdn.lifestyleasia.com/wp-content/uploads/2019/10/21224220/Winer-Parisienne.jpg',
+    //     lat: 48.137648311296,
+    //     long: 11.57983264273121,
+    //     date: DateTime.now(),
+    //     // date: DateTime.utc(2018, 01, 5)
+    //   )),
+    // ],
+
+  }
+
+  Monument findByTitle(String title) {
 
     return _locations.firstWhere((element) => element.title == title);
 
   }
 
-  void addLocation () {
+  void addLocation (Monument newLocation) {
 
+    _locations.add(newLocation);
 
     notifyListeners();
 
   }
 
 
-  void deleteLocation () {
+  void deleteLocation (String deleteTitle) {
 
-
+    final existingLocationIndex = _locations.indexWhere((element) => element.title == deleteTitle);
+    // var existingLocation = _locations[existingLocationIndex];
+    _locations.removeAt(existingLocationIndex);
 
     notifyListeners();
 
