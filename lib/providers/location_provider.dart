@@ -9,7 +9,7 @@ import '../models/monumentmarker.dart';
 
 class LocationProvider with ChangeNotifier {
 
-  final List <Monument> _locations = [
+  List <Monument> _locations = [
 
     Monument(
       title: 'Hofbräuhaus München',
@@ -37,6 +37,8 @@ class LocationProvider with ChangeNotifier {
     ),
   ];
 
+  List <Marker> _markers = [];
+
   List<Monument> get allLocations {
 
     return [..._locations];
@@ -45,40 +47,52 @@ class LocationProvider with ChangeNotifier {
 
   List<Marker> get allMarkers {
 
-    List<Marker> tempMarker = [];
-
+    _markers = [];
+    
     _locations.forEach((location) {
 
       var tempLocation = MonumentMarker(monument: Monument(title: location.title, lat: location.lat, long: location.long, url: location.url, date: location.date));
 
-      tempMarker.add(tempLocation);
+      _markers.add(tempLocation);
 
      });
 
-     return tempMarker;
+     print('getting all markers');
 
-    // <Marker>[
-    //   MonumentMarker(monument: Monument(
-    //     title: 'Titel 1',
-    //     url: 'https://cdn.lifestyleasia.com/wp-content/uploads/2019/10/21224220/Winer-Parisienne.jpg',
-    //     lat: 48.137648311296,
-    //     long: 11.57983264273121,
-    //     date: DateTime.now(),
-    //     // date: DateTime.utc(2018, 01, 5)
-    //   )),
-    // ],
+    return [..._markers];
 
   }
 
-  Monument findByTitle(String title) {
+  Monument findByDate(DateTime date) {
 
-    return _locations.firstWhere((element) => element.title == title);
+    return _locations.firstWhere((element) => element.date == date);
 
   }
 
   void addLocation (Monument newLocation) {
 
     _locations.add(newLocation);
+    var tempMarker = MonumentMarker(monument: Monument(title: newLocation.title, lat: newLocation.lat, long: newLocation.long, url: newLocation.url, date: newLocation.date));
+    _markers.add(tempMarker);
+
+    print('New location and marker added');
+
+    notifyListeners();
+
+  }
+
+  void updateLocation (Monument location) {
+
+    final locationIndex = _locations.indexWhere((loc) => loc.date == location.date);
+    if (locationIndex >= 0) {
+      _locations[locationIndex] = location;
+      var tempMarker = MonumentMarker(monument: Monument(title: location.title, lat: location.lat, long: location.long, url: location.url, date: location.date));
+      _markers[locationIndex] = tempMarker;
+      print(tempMarker.monument.title);
+    }
+
+    print('Location and marker updated');
+    
 
     notifyListeners();
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '/screens/main_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/location_provider.dart';
-import 'package:latlong2/latlong.dart';
 
 import '../models/monument.dart';
 
@@ -16,12 +15,12 @@ class LocationInput extends StatefulWidget {
 class _LocationInputState extends State<LocationInput> {
   final _form = GlobalKey<FormState>();
   var _isLoading = false;
+  var _isInit = true;
 
   final _descriptionFocusNode = FocusNode();
-  final _cameraFocusNode = FocusNode();
-  final _lensFocusNode = FocusNode();
+  final _imageUrl = FocusNode();
 
-  Monument data = Monument(title: '', lat: 0, long: 0, url: '', date: DateTime.now());
+  var data = Monument(title: '', lat: 0, long: 0, url: '', date: DateTime.now());
 
   Future<void> _saveForm() async {
     final isValid = _form.currentState!.validate();
@@ -32,9 +31,18 @@ class _LocationInputState extends State<LocationInput> {
     });
 
     print('In _safeForm');
+    _form.currentState!.save();
 
-    Provider.of<LocationProvider>(context, listen: false).addLocation(data);
-    
+    if (_isInit) {
+      print('Saving new');
+      print(data.title);
+      Provider.of<LocationProvider>(context, listen: false).addLocation(data);
+    } else {
+      print('Updating');
+      print(data.title);
+      Provider.of<LocationProvider>(context, listen: false).updateLocation(data);
+    }
+        
     setState(() {
       _isLoading = false;
     });
@@ -44,20 +52,20 @@ class _LocationInputState extends State<LocationInput> {
   @override
   void dispose() {
     _descriptionFocusNode.dispose();
-    _cameraFocusNode.dispose();
-    _lensFocusNode.dispose();
+    _imageUrl.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-    final title = args['title'].toString();
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+    final dateString = args['date'].toString();    
 
     try {
-      data = Provider.of<LocationProvider>(context).findByTitle(title);
+      final date = DateTime.parse(dateString);
+      data = Provider.of<LocationProvider>(context).findByDate(date);
+      _isInit = false;
     } catch (e) {
       final lat = double.parse(args['lat'].toString());
       final long = double.parse(args['long'].toString());
@@ -94,6 +102,7 @@ class _LocationInputState extends State<LocationInput> {
                       initialValue: data.title,
                       decoration: InputDecoration(labelText: 'Title'),
                       textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.text,
                       onFieldSubmitted: (_) {
                         FocusScope.of(context)
                             .requestFocus(_descriptionFocusNode);
@@ -118,8 +127,10 @@ class _LocationInputState extends State<LocationInput> {
                       initialValue: data.description,
                       decoration: InputDecoration(labelText: 'Description'),
                       textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.text,
+                      focusNode: _descriptionFocusNode,
                       onFieldSubmitted: (_) {
-                        FocusScope.of(context).requestFocus(_cameraFocusNode);
+                        FocusScope.of(context).requestFocus(_imageUrl);
                       },
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -141,6 +152,8 @@ class _LocationInputState extends State<LocationInput> {
                       initialValue: data.url,
                       decoration: InputDecoration(labelText: 'Image URL'),
                       textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.text,
+                      focusNode: _imageUrl,
                       onFieldSubmitted: (_) {
                         _saveForm();
                       },
@@ -164,24 +177,6 @@ class _LocationInputState extends State<LocationInput> {
                 ),
               ),
             ),
-
-      //   Container(
-      // child: Column(
-      //   mainAxisAlignment: MainAxisAlignment.center,
-      //   crossAxisAlignment: CrossAxisAlignment.center,
-      //   children: [
-      //     Text('Title'),
-      //     Text(data.title),
-      //     Text('Lat long'),
-      //     Text(data.lat.toString()),
-      //     Text(data.long.toString()),
-      //     TextButton(
-      //         onPressed: () {
-      //           Navigator.pop(context);
-      //         },
-      //         child: const Text('Return'))
-      //   ],
-      // ),
     );
   }
 }

@@ -2,14 +2,19 @@ import 'package:flutter/material.dart';
 import '../models/monument.dart';
 
 import '../screens/locationinput_screen.dart';
+import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 
 class MonumentMarkerPopup extends StatelessWidget {
-  const MonumentMarkerPopup({Key? key, required this.monument})
-      : super(key: key);
+  const MonumentMarkerPopup(this.monument, this.popupLayerController);
   final Monument monument;
+  final PopupController popupLayerController;
 
+  void popUpPressed (context) async {
 
+    await Navigator.of(context).pushNamed(LocationInput.routeName, arguments: {'date':  monument.date.toString(), 'lat': '', 'long': ''});
+    popupLayerController.hideAllPopups();
 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +32,7 @@ class MonumentMarkerPopup extends StatelessWidget {
             Text(monument.description),
             Text(monument.date.toString()),
             //Text('${monument.lat}-${monument.long}'),
-            TextButton(onPressed: () {Navigator.of(context).pushNamed(LocationInput.routeName, arguments: {'title':  monument.title, 'lat': '', 'long': ''});}, child: const Text('Bearbeiten')),
+            TextButton(onPressed: () {popUpPressed(context);}, child: const Text('Bearbeiten')),
           ],
         ),
       ),
