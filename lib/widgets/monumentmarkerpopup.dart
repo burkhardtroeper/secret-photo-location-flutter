@@ -18,24 +18,46 @@ class MonumentMarkerPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 200,
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+    return Card(
+        clipBehavior: Clip.antiAlias,
+        child: SizedBox(
+          width: 200,
+          height: 400,
+          child: Column(
+            children: <Widget>[
+              Image.network(monument.url),
+              ListTile(
+                title: Text(monument.title),
+                subtitle: Text(
+                  monument.description,
+                  style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  'Hier kommen technische Daten rein ...',
+                  style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                ),
+              ),
+              ButtonBar(
+                alignment: MainAxisAlignment.center,
+                children: [
+                  FlatButton(
+                    textColor: const Color(0xFF6200EE),
+                    onPressed: () {
+                      popUpPressed(context);
+                    },
+                    child: const Text('Bearbeiten'),
+                  ),
+                   ],
+              ),
+              
+            ],
+          ),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Image.network(monument.url, width: 200),
-            Text(monument.title),
-            Text(monument.description),
-            Text(monument.date.toString()),
-            //Text('${monument.lat}-${monument.long}'),
-            TextButton(onPressed: () {popUpPressed(context);}, child: const Text('Bearbeiten')),
-          ],
-        ),
-      ),
-    );
+      );
+
+
   }
 }

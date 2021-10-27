@@ -18,7 +18,7 @@ class Monument {
   
   const Monument({
     required this.title,
-    this.description = '',
+    required this.description,
     // this.camera = '',
     // this.lens = '',
     // this.aperture = '',

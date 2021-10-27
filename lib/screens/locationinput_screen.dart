@@ -20,7 +20,7 @@ class _LocationInputState extends State<LocationInput> {
   final _descriptionFocusNode = FocusNode();
   final _imageUrl = FocusNode();
 
-  var data = Monument(title: '', lat: 0, long: 0, url: '', date: DateTime.now());
+  var data = Monument(title: '', description: '', lat: 0, long: 0, url: '', date: DateTime.now());
 
   Future<void> _saveForm() async {
     final isValid = _form.currentState!.validate();
@@ -70,7 +70,8 @@ class _LocationInputState extends State<LocationInput> {
       final lat = double.parse(args['lat'].toString());
       final long = double.parse(args['long'].toString());
       data = Monument(
-          title: 'NEW LOCATION',
+          title: '',
+          description: '',
           lat: lat,
           long: long,
           url: '',
@@ -79,7 +80,7 @@ class _LocationInputState extends State<LocationInput> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Photo Location'),
+        title: _isInit? Text('Neue Foto-Location') : Text('Foto-Location bearbeiten'),
         actions: <Widget>[
           IconButton(
             onPressed: () {

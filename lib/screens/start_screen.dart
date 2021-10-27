@@ -6,39 +6,36 @@ class StartScreen extends StatelessWidget {
 
   //const StartScreen({ Key? key }) : super(key: key);
 
-  buttonPressed (ctx) {
+  buttonPressed(ctx) {
     Navigator.of(ctx).pushReplacementNamed(MainScreen.routeName);
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('SPL V0.0.1'),
-      // ),
-      body: Container(
-        padding: EdgeInsets.all(10),
-        alignment: Alignment.center,
-        child: Column(
-          children: [
-            Text('Special Foto Location', style: TextStyle(fontSize: 100)),
-            TextButton(onPressed: () {buttonPressed(context);}, child: const Text('Button Text')),
-          ],
+        appBar: AppBar(
+          title: const Text('Special Photo Locations'),
         ),
-      ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   backgroundColor: Colors.white,
-      //   items: [
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.category),
-      //       label: '1',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.category),
-      //       label: '2',
-      //     ),
-      //   ],
-      // ),
-    );
+        body: Container(
+            child: Stack(
+          children: [
+            const Image(
+              image: NetworkImage(
+                  "https://www.dummies.com/wp-content/uploads/285015.image0.jpg"),
+              alignment: Alignment.center,
+              height: double.infinity,
+              width: double.infinity,
+              fit: BoxFit.fill,
+            ),
+            Container(                            
+              alignment: const Alignment(0, 0.9),
+              child: ElevatedButton(                                
+                  onPressed: () {
+                    buttonPressed(context);
+                  },
+                  child: const Text('Weiter')),
+            ),
+          ],
+        )));
   }
 }

@@ -13,26 +13,26 @@ class LocationProvider with ChangeNotifier {
 
     Monument(
       title: 'Hofbräuhaus München',
-      description: 'Von Janos Kertesz',
+      description: 'Weltbekannt für gutes Bier, gutes Essen und schlechtes Publikum',
       lat: 48.137648311296,
       long: 11.57983264273121,
-      url: 'https://source.unsplash.com/user/c_v_r/200x100',
+      url: 'https://cdn.muenchen-p.de/.imaging/stk/responsive/image300/dms/sw/c/hofbraeuhaus1/12-hofbraeuhaus/document/12-hofbraeuhaus.jpg',
       date: DateTime.utc(2018, 01, 5)
     ),
     Monument(
-      title: 'Hofbräuhaus München 2',
-      description: 'Description 2',
-      lat: 47.137648311296,
-      long: 11.57983264273121,
-      url: 'https://source.unsplash.com/user/c_v_r/200x100',
+      title: 'Brandenburger Tor',
+      description: 'Das Wahrzeichen Berlins, vielleicht sogar von ganz Deutschland',
+      lat: 52.516292,
+      long: 13.377483,
+      url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Brandenburger_Tor_abends.jpg/1200px-Brandenburger_Tor_abends.jpg',
       date: DateTime.utc(2019, 11, 9)
     ),
     Monument(
-      title: 'Hofbräuhaus München 3',
-      description: 'Description 3',
-      lat: 49.137648311296,
-      long: 11.57983264273121,
-      url: 'https://source.unsplash.com/user/c_v_r/200x100',
+      title: 'Rathaus Bocholt',
+      description: 'Das hässlichste Rathaus der Welt',
+      lat: 51.836980053741605,
+      long: 6.61186028774274,
+      url: 'http://www.borkenerzeitung.de/Bilder/Das-Rathaus-am-Berliner-Platz-Viele-Bocholter-wollen-das-310095m.jpg',
       date: DateTime.utc(2020, 11, 9)
     ),
   ];
@@ -51,7 +51,7 @@ class LocationProvider with ChangeNotifier {
     
     _locations.forEach((location) {
 
-      var tempLocation = MonumentMarker(monument: Monument(title: location.title, lat: location.lat, long: location.long, url: location.url, date: location.date));
+      var tempLocation = MonumentMarker(monument: Monument(title: location.title, description: location.description, lat: location.lat, long: location.long, url: location.url, date: location.date));
 
       _markers.add(tempLocation);
 
@@ -72,7 +72,7 @@ class LocationProvider with ChangeNotifier {
   void addLocation (Monument newLocation) {
 
     _locations.add(newLocation);
-    var tempMarker = MonumentMarker(monument: Monument(title: newLocation.title, lat: newLocation.lat, long: newLocation.long, url: newLocation.url, date: newLocation.date));
+    var tempMarker = MonumentMarker(monument: Monument(title: newLocation.title, description: newLocation.description, lat: newLocation.lat, long: newLocation.long, url: newLocation.url, date: newLocation.date));
     _markers.add(tempMarker);
 
     print('New location and marker added');
@@ -86,7 +86,7 @@ class LocationProvider with ChangeNotifier {
     final locationIndex = _locations.indexWhere((loc) => loc.date == location.date);
     if (locationIndex >= 0) {
       _locations[locationIndex] = location;
-      var tempMarker = MonumentMarker(monument: Monument(title: location.title, lat: location.lat, long: location.long, url: location.url, date: location.date));
+      var tempMarker = MonumentMarker(monument: Monument(title: location.title, description: location.description, lat: location.lat, long: location.long, url: location.url, date: location.date));
       _markers[locationIndex] = tempMarker;
       print(tempMarker.monument.title);
     }
