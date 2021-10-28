@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import '/screens/main_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/location_provider.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+import 'dart:io';
 
 import '../models/monument.dart';
 
@@ -16,6 +19,8 @@ class _LocationInputState extends State<LocationInput> {
   final _form = GlobalKey<FormState>();
   var _isLoading = false;
   var _isInit = true;
+
+  late File _storedImage;
 
   final _descriptionFocusNode = FocusNode();
   final _imageUrl = FocusNode();
@@ -45,6 +50,17 @@ class _LocationInputState extends State<LocationInput> {
         
     setState(() {
       _isLoading = false;
+    });
+
+  }
+
+
+  Future<void> _takePhoto () async {
+
+    final imageFile = await ImagePicker.pickImage(source: ImageSource.camera, maxWidth: 600);
+
+    setState(() {
+      _storedImage = imageFile;
     });
 
   }
@@ -174,6 +190,7 @@ class _LocationInputState extends State<LocationInput> {
                             date: data.date);
                       },
                     ),
+                    ElevatedButton(onPressed: _takePhoto, child: const Text('Foto aufnehmen')),
                   ],
                 ),
               ),
