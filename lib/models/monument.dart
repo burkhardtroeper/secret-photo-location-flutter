@@ -13,7 +13,7 @@ class Monument {
   // final String exposureTime;
   final double lat;
   final double long;
-  final String url;
+  final String fileLink;
   final DateTime date;
   
   const Monument({
@@ -25,7 +25,7 @@ class Monument {
     // this.exposureTime = '',
     required this.lat,
     required this.long,
-    required this.url,
+    required this.fileLink,
     required this.date,
   });
 

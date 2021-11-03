@@ -43,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
     });
     setState(() {
       _markers =
-          Provider.of<LocationProvider>(context, listen: true).allMarkers;
+          Provider.of<LocationProvider>(context, listen: false).allMarkers;
     });
   }
 

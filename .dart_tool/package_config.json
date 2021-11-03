@@ -194,6 +194,18 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "path_provider",
+      "rootUri": "file:///Volumes/HackiData/Coding/Flutter/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-1.6.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "platform",
+      "rootUri": "file:///Volumes/HackiData/Coding/Flutter/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/platform-2.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "1.24"
+    },
+    {
       "name": "plugin_platform_interface",
       "rootUri": "file:///Volumes/HackiData/Coding/Flutter/sdk/flutter/.pub-cache/hosted/pub.dartlang.org/plugin_platform_interface-2.0.2",
       "packageUri": "lib/",
@@ -308,7 +320,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-10-28T13:23:20.306919Z",
+  "generated": "2021-11-03T10:15:26.329417Z",
   "generator": "pub",
   "generatorVersion": "2.14.3"
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/monument.dart';
+import 'dart:io';
 
 import '../screens/locationinput_screen.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
@@ -11,6 +12,7 @@ class MonumentMarkerPopup extends StatelessWidget {
 
   void popUpPressed (context) async {
 
+    print(monument.fileLink);
     await Navigator.of(context).pushNamed(LocationInput.routeName, arguments: {'date':  monument.date.toString(), 'lat': '', 'long': ''});
     popupLayerController.hideAllPopups();
 
@@ -18,6 +20,8 @@ class MonumentMarkerPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('Building popup');
+    print('filelink here: ${monument.fileLink}');
     return Card(
         clipBehavior: Clip.antiAlias,
         child: SizedBox(
@@ -25,7 +29,7 @@ class MonumentMarkerPopup extends StatelessWidget {
           height: 400,
           child: Column(
             children: <Widget>[
-              Image.network(monument.url),
+              Image.file(File(monument.fileLink)),
               ListTile(
                 title: Text(monument.title),
                 subtitle: Text(
@@ -36,15 +40,14 @@ class MonumentMarkerPopup extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
-                  'Hier kommen technische Daten rein ...',
+                  'More details',
                   style: TextStyle(color: Colors.black.withOpacity(0.6)),
                 ),
               ),
               ButtonBar(
                 alignment: MainAxisAlignment.center,
                 children: [
-                  FlatButton(
-                    textColor: const Color(0xFF6200EE),
+                  ElevatedButton(                    
                     onPressed: () {
                       popUpPressed(context);
                     },
