@@ -10,7 +10,7 @@ I started with Flutter some time ago I really felt in love with it. So here come
 
 Backend will be Firebase, when data in backend is implemented.
 
-Current status is: photos can only be chosen from phone gallery. No local storage implemented yet.
+Current status is: photos can only be chosen from phone gallery. Local storage implemented yet.
 
 App is going to be released in the app stores.
 
