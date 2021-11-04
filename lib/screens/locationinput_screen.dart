@@ -34,7 +34,7 @@ class _LocationInputState extends State<LocationInput> {
       lat: 0,
       long: 0,
       fileLink: '',
-      date: DateTime.now());
+      date: DateTime.now().toString());
 
 
 
@@ -73,9 +73,6 @@ class _LocationInputState extends State<LocationInput> {
   }
 
 
-
-
-
   // Future<void> _takePhoto() async {
   //   final imageFile =
   //       await ImagePicker.pickImage(source: ImageSource.camera, maxWidth: 600);
@@ -95,6 +92,8 @@ class _LocationInputState extends State<LocationInput> {
   //       fileLink: '${appDir.path}/$fileName',
   //       date: data.date);
   // }
+
+
 
   Future<void> _getPhoto() async {
     final imageFile =
@@ -125,8 +124,6 @@ class _LocationInputState extends State<LocationInput> {
       _storedImage = imageFile;
     });
 
-    // _saveForm();
-
   }
 
   @override
@@ -155,7 +152,7 @@ class _LocationInputState extends State<LocationInput> {
             lat: lat,
             long: long,
             fileLink: '',
-            date: DateTime.now());
+            date: DateTime.now().toString());
 
       } else {
 
@@ -171,26 +168,6 @@ class _LocationInputState extends State<LocationInput> {
       _firstEntry = false;
     
     } 
-
-    // try {
-    //   final date = DateTime.parse(dateString);
-    //   data = Provider.of<LocationProvider>(context).findByDate(date);
-    //   print('Data from existing location');
-    //   print('filelink is ${data.fileLink}');
-    //   _storedImage = File(data.fileLink);
-    //   _isInit = false;
-    // } catch (e) {
-    //   print('Creating new location');
-    //   final lat = double.parse(args['lat'].toString());
-    //   final long = double.parse(args['long'].toString());
-    //   data = Monument(
-    //       title: '',
-    //       description: '',
-    //       lat: lat,
-    //       long: long,
-    //       fileLink: '',
-    //       date: DateTime.now());
-    // }
 
     return Scaffold(
       appBar: AppBar(

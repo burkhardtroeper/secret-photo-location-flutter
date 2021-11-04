@@ -43,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
     });
     setState(() {
       _markers =
-          Provider.of<LocationProvider>(context, listen: false).allMarkers;
+          Provider.of<LocationProvider>(context, listen: false).allMarkers as List<Marker>;
     });
   }
 
@@ -55,12 +55,12 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _markers = Provider.of<LocationProvider>(context, listen: true).allMarkers;
+    _markers = Provider.of<LocationProvider>(context, listen: false).allMarkers as List<Marker>;
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {toggleEditMode();},
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         backgroundColor: _editMode ? Colors.red: Colors.blue,
         foregroundColor: Colors.black,
       ),
@@ -95,7 +95,7 @@ class _MainScreenState extends State<MainScreen> {
                       return MonumentMarkerPopup(
                           marker.monument, _popupLayerController);
                     }
-                    return Card(child: const Text('Not a monument'));
+                    return const Card(child: Text('Not a monument'));
                   },
                 ),
               ),

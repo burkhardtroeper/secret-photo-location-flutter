@@ -14,7 +14,7 @@ class Monument {
   final double lat;
   final double long;
   final String fileLink;
-  final DateTime date;
+  final String date;
   
   const Monument({
     required this.title,
