@@ -12,7 +12,7 @@ class MonumentMarker extends Marker {
           height: Monument.size,
           width: Monument.size,
           point: LatLng(monument.lat, monument.long),
-          builder: (BuildContext ctx) => Icon(Icons.camera_alt),
+          builder: (BuildContext ctx) => const Icon(Icons.camera_alt, color: Colors.blue, size: 40.0,),
         );
 
   final Monument monument;

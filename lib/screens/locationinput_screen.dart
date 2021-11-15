@@ -36,10 +36,6 @@ class _LocationInputState extends State<LocationInput> {
       fileLink: '',
       date: DateTime.now().toString());
 
-
-
-
-
   Future<void> _saveForm() async {
     final isValid = _form.currentState!.validate();
     if (!isValid) return;
@@ -99,8 +95,6 @@ class _LocationInputState extends State<LocationInput> {
     final imageFile =
         await ImagePicker.pickImage(source: ImageSource.gallery, maxWidth: 600);
 
-
-
     final appDir = await syspaths.getApplicationDocumentsDirectory();
     final fileName = path.basename(imageFile.path);
     await imageFile.copy('${appDir.path}/$fileName');
@@ -157,7 +151,7 @@ class _LocationInputState extends State<LocationInput> {
       } else {
 
         final date = DateTime.parse(dateString);
-        data = Provider.of<LocationProvider>(context).findByDate(date);
+        data = Provider.of<LocationProvider>(context).findByDate(dateString);
         print('Data from existing location');
         print('filelink is ${data.fileLink}');
         _storedImage = File(data.fileLink);

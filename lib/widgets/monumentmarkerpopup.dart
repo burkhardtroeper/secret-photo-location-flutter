@@ -53,7 +53,13 @@ class MonumentMarkerPopup extends StatelessWidget {
                     },
                     child: const Text('Bearbeiten'),
                   ),
-                   ],
+                  ElevatedButton(                    
+                    onPressed: () {
+                      // tbd
+                    },
+                    child: const Text('Löschen'),
+                  ),
+                ],
               ),
               
             ],

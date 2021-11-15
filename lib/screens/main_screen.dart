@@ -10,8 +10,6 @@ import '../models/monument.dart';
 
 import './locationinput_screen.dart';
 
-//import '../example_popup.dart';
-
 import '../providers/location_provider.dart';
 
 class MainScreen extends StatefulWidget {
@@ -28,23 +26,37 @@ class _MainScreenState extends State<MainScreen> {
 
   List<Marker> _markers = [];
 
+  late Future markersFuture;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   markersFuture = getMarkers();
+  // }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    markersFuture = getMarkers();
+  }
+
   void newLocation(LatLng latlng) async {
     
+    _popupLayerController.hideAllPopups();
+
     if (!_editMode) {
-      _popupLayerController.hideAllPopups();
       return;
     }
-    
-    _popupLayerController.hideAllPopups();
+
     await Navigator.of(context).pushNamed(LocationInput.routeName, arguments: {
       'date': '',
       'lat': latlng.latitude.toString(),
       'long': latlng.longitude.toString()
     });
-    setState(() {
-      _markers =
-          Provider.of<LocationProvider>(context, listen: false).allMarkers as List<Marker>;
-    });
+    // setState(() {
+    //   _markers =
+    //       Provider.of<LocationProvider>(context, listen: false).allMarkers as List<Marker>;
+    // });
   }
 
   void toggleEditMode () {
@@ -53,9 +65,18 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  getMarkers () async {
+
+    print('In getMarkers');
+    List<Marker> tempListMarker = await Provider.of<LocationProvider>(context, listen: true).allMarkers;
+    print(tempListMarker.length);
+    return tempListMarker; 
+
+
+  }
+
   @override
   Widget build(BuildContext context) {
-    _markers = Provider.of<LocationProvider>(context, listen: false).allMarkers as List<Marker>;
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -67,74 +88,59 @@ class _MainScreenState extends State<MainScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       body: Stack(
         children: [
-          FlutterMap(
-            options: MapOptions(
-              zoom: 5.0,
-              center: LatLng(44.421, 10.404),
-              onTap: (pos, latlng) {
-                newLocation(latlng);
-              },
-            ),
-            children: [
-              TileLayerWidget(
-                options: TileLayerOptions(
-                  urlTemplate:
-                      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  subdomains: ['a', 'b', 'c'],
-                ),
-              ),
-              PopupMarkerLayerWidget(
-                options: PopupMarkerLayerOptions(
-                  popupController: _popupLayerController,
-                  markers: _markers,
-                  markerRotateAlignment:
-                      PopupMarkerLayerOptions.rotationAlignmentFor(
-                          AnchorAlign.top),
-                  popupBuilder: (_, Marker marker) {
-                    if (marker is MonumentMarker) {
-                      return MonumentMarkerPopup(
-                          marker.monument, _popupLayerController);
-                    }
-                    return const Card(child: Text('Not a monument'));
+          FutureBuilder(
+            future: Provider.of<LocationProvider>(context, listen: true).allMarkers,
+            builder: (BuildContext context, snapshot) {    
+              if (snapshot.connectionState != ConnectionState.done) {
+                return const CircularProgressIndicator();
+              }              
+              print(snapshot.data);
+              return FlutterMap(
+                options: MapOptions(
+                  zoom: 5.0,
+                  center: LatLng(44.421, 10.404),
+                  onTap: (pos, latlng) {
+                    newLocation(latlng);
                   },
                 ),
-              ),
-            ],
+                children: [
+                  TileLayerWidget(
+                    options: TileLayerOptions(
+                      urlTemplate:
+                          'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      subdomains: ['a', 'b', 'c'],
+                    ),
+                  ),
+                  snapshot.data != null ?
+                  PopupMarkerLayerWidget(
+                    options: PopupMarkerLayerOptions(
+                      popupController: _popupLayerController,
+                      markers: snapshot.data as List<Marker>,
+                      markerRotateAlignment:
+                          PopupMarkerLayerOptions.rotationAlignmentFor(
+                              AnchorAlign.top),
+                      popupBuilder: (_, Marker marker) {
+                        if (marker is MonumentMarker) {
+                          return MonumentMarkerPopup(
+                              marker.monument, _popupLayerController);
+                        }
+                        return const Card(child: Text('Not a monument'));
+                      },
+                    ),
+                  ) : PopupMarkerLayerWidget(
+                    options: 
+                      PopupMarkerLayerOptions(
+                        popupBuilder: (_, Marker marker) {
+                          return const Card(child: Text('No locations yet'));                          
+                        }
+                      )
+                    )
+                ],
+              );
+            },
           ),
         ],
       ),
     );
-
-    // return FlutterMap(
-    //   options: MapOptions(
-    //     zoom: 5.0,
-    //     center: LatLng(44.421, 10.404),
-    //     onTap: (pos, latlng) {
-    //         newLocation(latlng);
-    //       },
-    //   ),
-    //   children: [
-    //     TileLayerWidget(
-    //       options: TileLayerOptions(
-    //         urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    //         subdomains: ['a', 'b', 'c'],
-    //       ),
-    //     ),
-    //     PopupMarkerLayerWidget(
-    //       options: PopupMarkerLayerOptions(
-    //         popupController: _popupLayerController,
-    //         markers: _markers,
-    //         markerRotateAlignment:
-    //             PopupMarkerLayerOptions.rotationAlignmentFor(AnchorAlign.top),
-    //         popupBuilder: (_, Marker marker) {
-    //           if (marker is MonumentMarker) {
-    //             return MonumentMarkerPopup(marker.monument, _popupLayerController);
-    //           }
-    //           return Card(child: const Text('Not a monument'));
-    //         },
-    //       ),
-    //     ),
-    //   ],
-    // );
   }
 }

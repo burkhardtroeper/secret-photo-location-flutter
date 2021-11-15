@@ -24,18 +24,21 @@ class LocationProvider with ChangeNotifier {
 
     await fetchAndSetLocations();
 
-    _locations.forEach((location) {
-      var tempLocation = MonumentMarker(
-          monument: Monument(
-              title: location.title,
-              description: location.description,
-              lat: location.lat,
-              long: location.long,
-              fileLink: location.fileLink,
-              date: location.date));
+    if (_locations.isNotEmpty) {
+      print('In markers.foreach-loop');
+      _locations.forEach((location) {
+        var tempLocation = MonumentMarker(
+            monument: Monument(
+                title: location.title,
+                description: location.description,
+                lat: location.lat,
+                long: location.long,
+                fileLink: location.fileLink,
+                date: location.date));
 
-      _markers.add(tempLocation);
-    });
+        _markers.add(tempLocation);
+      });
+    }
 
     print('getting all markers');
 
@@ -43,7 +46,7 @@ class LocationProvider with ChangeNotifier {
 
   }
 
-  Monument findByDate(DateTime date) {
+  Monument findByDate(String date) {
     return _locations.firstWhere((element) => element.date == date);
   }
 
@@ -71,6 +74,8 @@ class LocationProvider with ChangeNotifier {
       'long': newLocation.long,
       'filelink': newLocation.fileLink,
     });
+
+    print('End of addLocation');
   }
 
   void updateLocation(Monument location) {
@@ -106,6 +111,9 @@ class LocationProvider with ChangeNotifier {
 
   Future<void> fetchAndSetLocations() async {
     final dataList = await DBHelper.getData('user_locations');
+
+    if (dataList.isEmpty) return;
+
     _locations = dataList
         .map((location) => Monument(
               date: location['date'],
@@ -117,6 +125,6 @@ class LocationProvider with ChangeNotifier {
             ))
         .toList();
 
-    notifyListeners();
+    // notifyListeners();
   }
 }
