@@ -10,7 +10,7 @@ class MonumentMarkerPopup extends StatelessWidget {
   final Monument monument;
   final PopupController popupLayerController;
 
-  void popUpPressed (context) async {
+  void updatePressed (context) async {
 
     print(monument.fileLink);
     await Navigator.of(context).pushNamed(LocationInput.routeName, arguments: {'date':  monument.date.toString(), 'lat': '', 'long': ''});
@@ -49,15 +49,9 @@ class MonumentMarkerPopup extends StatelessWidget {
                 children: [
                   ElevatedButton(                    
                     onPressed: () {
-                      popUpPressed(context);
+                      updatePressed(context);
                     },
                     child: const Text('Bearbeiten'),
-                  ),
-                  ElevatedButton(                    
-                    onPressed: () {
-                      // tbd
-                    },
-                    child: const Text('Löschen'),
                   ),
                 ],
               ),

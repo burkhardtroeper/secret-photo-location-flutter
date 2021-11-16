@@ -25,4 +25,24 @@ class DBHelper {
     final db = await DBHelper.database();
     return db.query(table);
   }
+
+  static Future<void> update(String table, Map<String, Object> data) async {
+    final db = await DBHelper.database();
+    db.update(
+      table,
+      data,
+      where: 'date = ?',
+      whereArgs: [data['date'].toString()],
+      conflictAlgorithm: sql.ConflictAlgorithm.replace,
+    );
+  }
+
+  static Future<void> delete(String table, Map<String, Object> data) async {
+    final db = await DBHelper.database();
+    db.delete(
+      table,
+      where: 'date = ?',
+      whereArgs: [data['date'].toString()],
+    );
+  }
 }

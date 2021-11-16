@@ -120,6 +120,15 @@ class _LocationInputState extends State<LocationInput> {
 
   }
 
+
+  Future<void> _deleteLocation () async {
+
+    Provider.of<LocationProvider>(context, listen: false).deleteLocation(data.date);
+    Navigator.pop(context);
+
+  }
+
+
   @override
   void dispose() {
     _descriptionFocusNode.dispose();
@@ -279,7 +288,12 @@ class _LocationInputState extends State<LocationInput> {
                           //     child: const Text('Foto aufnehmen')),
                           ElevatedButton(
                               onPressed: _getPhoto,
-                              child: const Text('Foto laden')),
+                              child: const Text('Foto laden')
+                          ),
+                          ElevatedButton(
+                              onPressed: _deleteLocation,
+                              child: const Text('Location löschen')
+                          ),
                         ],
                       ),
                     ),

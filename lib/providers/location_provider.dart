@@ -98,15 +98,29 @@ class LocationProvider with ChangeNotifier {
     print('Location and marker updated');
 
     notifyListeners();
+
+    DBHelper.update('user_locations', {
+      'date': location.date,
+      'title': location.title,
+      'description': location.description,
+      'lat': location.lat,
+      'long': location.long,
+      'filelink': location.fileLink,
+    });
+
+
   }
 
-  void deleteLocation(String deleteTitle) {
+  void deleteLocation(String deleteDate) {
     final existingLocationIndex =
-        _locations.indexWhere((element) => element.title == deleteTitle);
+        _locations.indexWhere((element) => element.date == deleteDate);
     // var existingLocation = _locations[existingLocationIndex];
     _locations.removeAt(existingLocationIndex);
 
     notifyListeners();
+
+    DBHelper.delete('user_locations', {'date': deleteDate});
+
   }
 
   Future<void> fetchAndSetLocations() async {
