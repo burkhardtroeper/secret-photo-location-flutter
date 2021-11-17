@@ -20,8 +20,8 @@ class StartScreen extends StatelessWidget {
             child: Stack(
           children: [
             const Image(
-              image: NetworkImage(
-                  "https://www.dummies.com/wp-content/uploads/285015.image0.jpg"),
+              image: AssetImage(
+                  'assets/images/startscreenbackground.jpg'),
               alignment: Alignment.center,
               height: double.infinity,
               width: double.infinity,

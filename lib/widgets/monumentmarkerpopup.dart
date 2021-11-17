@@ -26,7 +26,7 @@ class MonumentMarkerPopup extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         child: SizedBox(
           width: 200,
-          height: 400,
+          height: 500,
           child: Column(
             children: <Widget>[
               Image.file(File(monument.fileLink)),
@@ -39,9 +39,29 @@ class MonumentMarkerPopup extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  'More details',
-                  style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                child: Column(
+                  children: [
+                    Text(
+                      monument.camera,
+                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                    ),
+                    Text(
+                      monument.lens,
+                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                    ),
+                    Text(
+                      monument.aperture,
+                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                    ),
+                    Text(
+                      monument.exposureTime,
+                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                    ),
+                    Text(
+                      monument.iso,
+                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                    ),
+                  ],
                 ),
               ),
               ButtonBar(
@@ -51,7 +71,7 @@ class MonumentMarkerPopup extends StatelessWidget {
                     onPressed: () {
                       updatePressed(context);
                     },
-                    child: const Text('Bearbeiten'),
+                    child: const Text('Edit'),
                   ),
                 ],
               ),
